@@ -1,0 +1,6 @@
+[tool.ruff]
+target-version = "py313"
+
+[tool.ty]
+[tool.ty.rules]
+unresolved-import = "ignore"

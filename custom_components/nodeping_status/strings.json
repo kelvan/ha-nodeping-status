@@ -1,0 +1,23 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "NodePing Status Report",
+        "description": "Enter your NodePing public report ID and a name for this entry.",
+        "data": {
+          "report_id": "Report ID",
+          "name": "Name"
+        }
+      }
+    },
+    "error": {
+      "no_report_id": "Please enter a report ID.",
+      "no_name": "Please enter a name.",
+      "invalid_report_id": "Report ID not found. Make sure it is a valid public NodePing report ID.",
+      "cannot_connect": "Unable to reach the NodePing API. Check your network connection."
+    },
+    "abort": {
+      "already_configured": "This report ID is already configured."
+    }
+  }
+}
