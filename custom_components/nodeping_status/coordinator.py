@@ -38,7 +38,7 @@ class NodePingCoordinator(DataUpdateCoordinator[dict]):
                     raise UpdateFailed(
                         f"Error fetching report {self.report_id}: HTTP {resp.status}"
                     )
-                data = await resp.json()
+                data = await resp.json(content_type=None)
         except UpdateFailed:
             raise
         except Exception as err:

@@ -48,7 +48,7 @@ class NodePingConfigFlow(ConfigFlow, domain=DOMAIN):
                 if not errors:
                     return self.async_create_entry(
                         title=name,
-                        data={CONF_REPORT_ID: report_id, CONF_NAME: name},
+                        data={CONF_REPORT_ID: report_id},
                     )
 
         return self.async_show_form(
