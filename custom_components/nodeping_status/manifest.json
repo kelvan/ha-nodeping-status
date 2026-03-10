@@ -5,7 +5,7 @@
   "config_flow": true,
   "documentation": "https://github.com/kelvan/ha-nodeping-status",
   "iot_class": "cloud_polling",
-  "homeassistant": "2024.12.0",
+  "homeassistant": "2026.1.0",
   "requirements": [],
   "version": "0.1.1"
 }

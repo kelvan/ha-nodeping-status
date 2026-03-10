@@ -1,0 +1,54 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.allow-failure }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - ha-version: "2026.1.0"
+            python-version: "3.13"
+            allow-failure: false
+          - ha-version: "latest"
+            python-version: "3.13"
+            allow-failure: false
+          - ha-version: "latest"
+            python-version: "3.14"
+            allow-failure: false
+          - ha-version: "pre"
+            python-version: "3.13"
+            allow-failure: true
+
+    name: HA ${{ matrix.ha-version }} / Python ${{ matrix.python-version }}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+          enable-cache: false
+
+      - name: Create venv
+        run: uv venv
+
+      - name: Install dependencies
+        run: |
+          if [ "${{ matrix.ha-version }}" = "latest" ]; then
+            uv pip install homeassistant -r requirements_test.txt
+          elif [ "${{ matrix.ha-version }}" = "pre" ]; then
+            uv pip install --pre homeassistant -r requirements_test.txt
+          else
+            uv pip install "homeassistant==${{ matrix.ha-version }}" -r requirements_test.txt
+          fi
+
+      - name: Run tests
+        run: uv run --no-project pytest tests/ -v
