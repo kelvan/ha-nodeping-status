@@ -1,10 +1,11 @@
 {
   "domain": "nodeping_status",
   "name": "NodePing Status",
-  "codeowners": [],
+  "codeowners": ["@kelvan"],
   "config_flow": true,
   "documentation": "https://github.com/kelvan/ha-nodeping-status",
   "iot_class": "cloud_polling",
+  "homeassistant": "2024.12.0",
   "requirements": [],
   "version": "0.1.1"
 }
