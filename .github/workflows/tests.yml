@@ -13,9 +13,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - ha-version: "2026.1.0"
-            python-version: "3.13"
-            allow-failure: false
           - ha-version: "latest"
             python-version: "3.13"
             allow-failure: false

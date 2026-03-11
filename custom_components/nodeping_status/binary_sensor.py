@@ -1,5 +1,3 @@
-"""Binary sensor platform for NodePing."""
-
 from __future__ import annotations
 
 from homeassistant.components.binary_sensor import (
@@ -20,7 +18,6 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up NodePing binary sensors."""
     coordinator: NodePingCoordinator = hass.data[DOMAIN][entry.entry_id]
 
     async_add_entities(
@@ -29,19 +26,15 @@ async def async_setup_entry(
 
 
 class NodePingBinarySensor(NodePingEntity, BinarySensorEntity):
-    """Binary sensor for a NodePing check."""
-
     _attr_device_class = BinarySensorDeviceClass.CONNECTIVITY
     _attr_name = "Status"
 
     def __init__(self, coordinator: NodePingCoordinator, check_id: str) -> None:
-        """Initialize the binary sensor."""
         super().__init__(coordinator, check_id)
         self._attr_unique_id = f"{check_id}_status"
 
     @property
     def is_on(self) -> bool | None:
-        """Return true if the check is up."""
         status = self._check_data.get("status")
         if status is None:
             return None
@@ -49,7 +42,6 @@ class NodePingBinarySensor(NodePingEntity, BinarySensorEntity):
 
     @property
     def extra_state_attributes(self) -> dict:
-        """Return extra attributes."""
         data = self._check_data
         attrs = {}
         if "type" in data:

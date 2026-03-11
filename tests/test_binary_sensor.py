@@ -1,5 +1,3 @@
-"""Tests for the NodePing binary sensor."""
-
 from unittest.mock import MagicMock
 
 from custom_components.nodeping_status.binary_sensor import NodePingBinarySensor

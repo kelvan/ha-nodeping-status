@@ -1,5 +1,3 @@
-"""DataUpdateCoordinator for NodePing."""
-
 from __future__ import annotations
 
 from datetime import timedelta
@@ -15,10 +13,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class NodePingCoordinator(DataUpdateCoordinator[dict]):
-    """Coordinator to fetch NodePing status data."""
-
     def __init__(self, hass: HomeAssistant, report_id: str) -> None:
-        """Initialize the coordinator."""
         super().__init__(
             hass,
             _LOGGER,
@@ -28,7 +23,6 @@ class NodePingCoordinator(DataUpdateCoordinator[dict]):
         self.report_id = report_id
 
     async def _async_update_data(self) -> dict:
-        """Fetch data from NodePing API."""
         session = async_get_clientsession(self.hass)
         url = API_URL.format(report_id=self.report_id)
 

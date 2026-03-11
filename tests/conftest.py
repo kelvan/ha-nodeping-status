@@ -1,5 +1,3 @@
-"""Test configuration and shared fixtures."""
-
 from contextlib import contextmanager
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -36,7 +34,6 @@ MOCK_API_RESPONSE = {
 
 @contextmanager
 def mock_aiohttp(module: str, status: int = 200, payload=None, exception=None):
-    """Patch async_get_clientsession in *module* with a mock HTTP response."""
     if exception is not None:
         cm = MagicMock()
         cm.__aenter__ = AsyncMock(side_effect=exception)

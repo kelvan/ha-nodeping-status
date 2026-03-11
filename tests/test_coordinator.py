@@ -1,5 +1,3 @@
-"""Tests for the NodePing data coordinator."""
-
 from aiohttp import ClientError
 from unittest.mock import MagicMock
 
@@ -11,7 +9,6 @@ _MODULE = "custom_components.nodeping_status.coordinator"
 
 
 def _make_coordinator() -> NodePingCoordinator:
-    """Instantiate NodePingCoordinator bypassing DataUpdateCoordinator.__init__."""
     coordinator = NodePingCoordinator.__new__(NodePingCoordinator)
     coordinator.hass = MagicMock()
     coordinator.report_id = MOCK_REPORT_ID
@@ -19,7 +16,6 @@ def _make_coordinator() -> NodePingCoordinator:
 
 
 async def test_fetch_data() -> None:
-    """Successful fetch indexes jobs by _id."""
     coordinator = _make_coordinator()
     with mock_aiohttp(_MODULE, payload=MOCK_API_RESPONSE):
         result = await coordinator._async_update_data()
@@ -32,7 +28,6 @@ async def test_fetch_data() -> None:
 
 
 async def test_empty_jobs() -> None:
-    """Response with no jobs returns an empty dict."""
     coordinator = _make_coordinator()
     with mock_aiohttp(_MODULE, payload={"jobs": []}):
         result = await coordinator._async_update_data()
@@ -41,7 +36,6 @@ async def test_empty_jobs() -> None:
 
 
 async def test_http_error() -> None:
-    """Non-200 HTTP response raises UpdateFailed."""
     from homeassistant.helpers.update_coordinator import UpdateFailed
 
     coordinator = _make_coordinator()
@@ -54,7 +48,6 @@ async def test_http_error() -> None:
 
 
 async def test_connection_error() -> None:
-    """Network exception raises UpdateFailed."""
     from homeassistant.helpers.update_coordinator import UpdateFailed
 
     coordinator = _make_coordinator()

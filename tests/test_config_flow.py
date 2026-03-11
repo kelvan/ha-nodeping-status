@@ -1,5 +1,3 @@
-"""Tests for the NodePing config flow."""
-
 from aiohttp import ClientError
 from unittest.mock import MagicMock
 
@@ -14,7 +12,6 @@ _MODULE = "custom_components.nodeping_status.config_flow"
 
 
 def _make_flow(existing_report_ids: list[str] | None = None) -> NodePingConfigFlow:
-    """Instantiate a config flow with a minimal mocked hass."""
     flow = NodePingConfigFlow()
     flow.hass = MagicMock()
     flow.handler = DOMAIN
@@ -29,7 +26,6 @@ def _make_flow(existing_report_ids: list[str] | None = None) -> NodePingConfigFl
 
 
 async def test_form_shown() -> None:
-    """First call without user_input returns the form."""
     result = await _make_flow().async_step_user(None)
     assert result["type"] == FlowResultType.FORM
     assert result["step_id"] == "user"
@@ -37,7 +33,6 @@ async def test_form_shown() -> None:
 
 
 async def test_create_entry() -> None:
-    """Valid input with a reachable report ID creates an entry."""
     with mock_aiohttp(_MODULE, status=200):
         result = await _make_flow().async_step_user(
             {CONF_REPORT_ID: MOCK_REPORT_ID, "name": "My NodePing"}
@@ -49,7 +44,6 @@ async def test_create_entry() -> None:
 
 
 async def test_invalid_report_id() -> None:
-    """404 response flags the report_id field."""
     with mock_aiohttp(_MODULE, status=404):
         result = await _make_flow().async_step_user(
             {CONF_REPORT_ID: "badid", "name": "Bad"}
@@ -60,7 +54,6 @@ async def test_invalid_report_id() -> None:
 
 
 async def test_cannot_connect_http_error() -> None:
-    """Non-200/404 response flags the base error."""
     with mock_aiohttp(_MODULE, status=503):
         result = await _make_flow().async_step_user(
             {CONF_REPORT_ID: MOCK_REPORT_ID, "name": "Test"}
@@ -71,7 +64,6 @@ async def test_cannot_connect_http_error() -> None:
 
 
 async def test_cannot_connect_network_error() -> None:
-    """Network exception flags the base error."""
     with mock_aiohttp(_MODULE, exception=ClientError("err")):
         result = await _make_flow().async_step_user(
             {CONF_REPORT_ID: MOCK_REPORT_ID, "name": "Test"}
@@ -82,7 +74,6 @@ async def test_cannot_connect_network_error() -> None:
 
 
 async def test_already_configured() -> None:
-    """Duplicate report ID aborts the flow."""
     from homeassistant.data_entry_flow import AbortFlow
 
     with mock_aiohttp(_MODULE, status=200):

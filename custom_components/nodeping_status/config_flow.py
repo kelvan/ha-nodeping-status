@@ -1,5 +1,3 @@
-"""Config flow for NodePing integration."""
-
 from __future__ import annotations
 
 from typing import Any
@@ -14,14 +12,11 @@ from .const import API_URL, CONF_REPORT_ID, DOMAIN
 
 
 class NodePingConfigFlow(ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for NodePing."""
-
     VERSION = 1
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
-        """Handle the initial step."""
         errors: dict[str, str] = {}
 
         if user_input is not None:

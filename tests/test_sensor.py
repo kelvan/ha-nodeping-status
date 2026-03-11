@@ -1,5 +1,3 @@
-"""Tests for the NodePing uptime sensors."""
-
 import pytest
 from datetime import date
 from unittest.mock import MagicMock, patch
@@ -26,7 +24,6 @@ def test_today_uptime() -> None:
 
 
 def test_today_uptime_missing() -> None:
-    """Unknown date key returns None (shown as 'unknown' in HA)."""
     with patch("custom_components.nodeping_status.sensor.date") as mock_date:
         mock_date.today.return_value = date(2000, 1, 1)
         sensor = _make_sensor("today")

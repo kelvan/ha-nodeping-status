@@ -1,5 +1,3 @@
-"""Base entity for NodePing."""
-
 from __future__ import annotations
 
 from homeassistant.helpers.entity import DeviceInfo
@@ -10,12 +8,9 @@ from .coordinator import NodePingCoordinator
 
 
 class NodePingEntity(CoordinatorEntity[NodePingCoordinator]):
-    """Base class for NodePing entities."""
-
     _attr_has_entity_name = True
 
     def __init__(self, coordinator: NodePingCoordinator, check_id: str) -> None:
-        """Initialize the entity."""
         super().__init__(coordinator)
         self._check_id = check_id
 
@@ -25,7 +20,6 @@ class NodePingEntity(CoordinatorEntity[NodePingCoordinator]):
 
     @property
     def device_info(self) -> DeviceInfo:
-        """Return device info."""
         data = self._check_data
         return DeviceInfo(
             identifiers={(DOMAIN, self._check_id)},

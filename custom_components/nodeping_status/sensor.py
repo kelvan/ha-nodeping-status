@@ -1,5 +1,3 @@
-"""Sensor platform for NodePing."""
-
 from __future__ import annotations
 
 from datetime import date
@@ -19,7 +17,6 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up NodePing sensors."""
     coordinator: NodePingCoordinator = hass.data[DOMAIN][entry.entry_id]
 
     entities: list[SensorEntity] = []
@@ -30,8 +27,6 @@ async def async_setup_entry(
 
 
 class NodePingUptimeSensor(NodePingEntity, SensorEntity):
-    """Sensor for NodePing uptime percentage."""
-
     _attr_native_unit_of_measurement = "%"
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_suggested_display_precision = 3
@@ -39,7 +34,6 @@ class NodePingUptimeSensor(NodePingEntity, SensorEntity):
     def __init__(
         self, coordinator: NodePingCoordinator, check_id: str, period: str
     ) -> None:
-        """Initialize the sensor."""
         super().__init__(coordinator, check_id)
         self._period = period
         self._attr_unique_id = f"{check_id}_uptime_{period}"
@@ -47,7 +41,6 @@ class NodePingUptimeSensor(NodePingEntity, SensorEntity):
 
     @property
     def native_value(self) -> float | None:
-        """Return the uptime percentage."""
         uptime = self._check_data.get("uptime", {})
         if self._period == "today":
             today_key = date.today().strftime("%Y-%m-%d")
