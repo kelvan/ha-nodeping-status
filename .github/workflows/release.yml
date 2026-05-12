@@ -3,18 +3,35 @@ name: Release
 on:
   push:
     tags:
-      - "v*"
-
-permissions:
-  contents: write
+      - "v*.*.*"
 
 jobs:
-  release:
-    runs-on: ubuntu-latest
+  validate:
+    uses: ./.github/workflows/validate.yml
+
+  validate-version:
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
 
-      - name: Create release
-        run: gh release create "${{ github.ref_name }}" --generate-notes
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check manifest version matches tag
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          MANIFEST_VERSION=$(jq -r '.version' custom_components/nodeping_status/manifest.json)
+          if [ "$TAG" != "$MANIFEST_VERSION" ]; then
+            echo "Tag $TAG does not match manifest version $MANIFEST_VERSION"
+            exit 1
+          fi
+
+  release:
+    needs: [validate, validate-version]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2.6.1
+        with:
+          generate_release_notes: true
