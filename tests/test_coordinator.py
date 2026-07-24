@@ -1,5 +1,6 @@
-from aiohttp import ClientError
 from unittest.mock import MagicMock
+
+from aiohttp import ClientError
 
 from custom_components.nodeping_status.coordinator import NodePingCoordinator
 

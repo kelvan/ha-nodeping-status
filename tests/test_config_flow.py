@@ -1,6 +1,6 @@
-from aiohttp import ClientError
 from unittest.mock import MagicMock
 
+from aiohttp import ClientError
 from homeassistant.data_entry_flow import FlowResultType
 
 from custom_components.nodeping_status.config_flow import NodePingConfigFlow

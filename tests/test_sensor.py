@@ -1,6 +1,7 @@
-import pytest
 from datetime import date
 from unittest.mock import MagicMock, patch
+
+import pytest
 
 from custom_components.nodeping_status.sensor import NodePingUptimeSensor
 
