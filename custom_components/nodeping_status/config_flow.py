@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
+import aiohttp
 import voluptuous as vol
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
 from homeassistant.const import CONF_NAME
@@ -36,7 +37,7 @@ class NodePingConfigFlow(ConfigFlow, domain=DOMAIN):
                             errors[CONF_REPORT_ID] = "invalid_report_id"
                         elif resp.status != 200:
                             errors["base"] = "cannot_connect"
-                except Exception:
+                except (aiohttp.ClientError, TimeoutError):
                     errors["base"] = "cannot_connect"
 
                 if not errors:
