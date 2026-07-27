@@ -1,22 +1,20 @@
 from __future__ import annotations
 
 from homeassistant.components.sensor import SensorEntity, SensorStateClass
-from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.util import dt as dt_util
 
-from .const import DOMAIN
-from .coordinator import NodePingCoordinator
+from .coordinator import NodePingConfigEntry, NodePingCoordinator
 from .entity import NodePingEntity
 
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    entry: ConfigEntry,
+    entry: NodePingConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    coordinator: NodePingCoordinator = hass.data[DOMAIN][entry.entry_id]
+    coordinator = entry.runtime_data
 
     entities: list[SensorEntity] = []
     for check_id in coordinator.data:

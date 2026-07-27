@@ -4,21 +4,19 @@ from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
 )
-from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .const import DOMAIN
-from .coordinator import NodePingCoordinator
+from .coordinator import NodePingConfigEntry, NodePingCoordinator
 from .entity import NodePingEntity
 
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    entry: ConfigEntry,
+    entry: NodePingConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    coordinator: NodePingCoordinator = hass.data[DOMAIN][entry.entry_id]
+    coordinator = entry.runtime_data
 
     async_add_entities(
         NodePingBinarySensor(coordinator, check_id) for check_id in coordinator.data
