@@ -32,6 +32,12 @@ A Home Assistant custom integration that monitors your services via [NodePing](h
 3. Enter a public report ID and a name for the entry
 4. Repeat to add additional report IDs
 
+## Removal
+
+1. Go to **Settings** → **Devices & Services**
+2. Find the **NodePing Status** entry and remove it via the three-dot menu
+3. If installed via HACS, remove the integration there too, then restart Home Assistant
+
 ## Disclaimer
 
 This integration was created with the assistance of [Claude Code](https://github.com/anthropics/claude-code) by Anthropic.
