@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from datetime import date
-
 from homeassistant.components.sensor import SensorEntity, SensorStateClass
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.util import dt as dt_util
 
 from .const import DOMAIN
 from .coordinator import NodePingCoordinator
@@ -43,7 +42,7 @@ class NodePingUptimeSensor(NodePingEntity, SensorEntity):
     def native_value(self) -> float | None:
         uptime = self._check_data.get("uptime", {})
         if self._period == "today":
-            today_key = date.today().strftime("%Y-%m-%d")
+            today_key = dt_util.now().strftime("%Y-%m-%d")
             day_data = uptime.get(today_key, {})
             return day_data.get("uptime")
         # total / 30-day

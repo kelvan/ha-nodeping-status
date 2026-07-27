@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import UTC, datetime
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -18,15 +18,15 @@ def _make_sensor(period: str, uptime: dict = _UPTIME_DATA) -> NodePingUptimeSens
 
 
 def test_today_uptime() -> None:
-    with patch("custom_components.nodeping_status.sensor.date") as mock_date:
-        mock_date.today.return_value = date(2025, 1, 15)
+    with patch("custom_components.nodeping_status.sensor.dt_util") as mock_dt_util:
+        mock_dt_util.now.return_value = datetime(2025, 1, 15, tzinfo=UTC)
         sensor = _make_sensor("today")
         assert sensor.native_value == pytest.approx(99.9)
 
 
 def test_today_uptime_missing() -> None:
-    with patch("custom_components.nodeping_status.sensor.date") as mock_date:
-        mock_date.today.return_value = date(2000, 1, 1)
+    with patch("custom_components.nodeping_status.sensor.dt_util") as mock_dt_util:
+        mock_dt_util.now.return_value = datetime(2000, 1, 1, tzinfo=UTC)
         sensor = _make_sensor("today")
     assert sensor.native_value is None
 
